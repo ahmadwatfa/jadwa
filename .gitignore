@@ -1,0 +1,3 @@
+/node_modules
+/vendor
+resources/views/admin/investmentoffer/create.blade.php
