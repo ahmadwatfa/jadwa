@@ -71,13 +71,16 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="country" class="form-label">الدولة </label>
-                                            <input type="text" name="country"
-                                                class="form-control @error('country')"  is-invalid @enderror
-                                                id="country"
-                                                value="{{ old('country', $project->country) }}" placeholder="الدولة ">
+                                            <label for="country" class="form-label">الدولة</label>
+                                            <!-- All countries -->
+                                            <select id="country" name="country" class="form-control country">
+                                                <option selected disabled value="{{ $project->countries->id }}">{{ $project->countries->name }}</option>
+                                                @foreach (DB::select('select * from  countries ') as $item)
+                                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                                @endforeach
+                                            </select>
                                             @error('country')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>
@@ -86,13 +89,15 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-lg-6">
                                         <div class="mb-3">
-                                            <label for="city" class="form-label">المدينة </label>
-                                            <input type="text" name="city"
-                                                class="form-control @error('city')"  is-invalid @enderror
-                                                id="formrow-city-input"
-                                                value="{{ old('city', $project->city) }}" placeholder="المدينة ">
+                                            <label for="city" class="form-label">المدينة</label>
+                                            <select id="city"
+                                                class="form-select city @error('city')  is-invalid @enderror"
+                                                name="city">
+
+                                            </select>
+
                                             @error('city')
                                                 <span class="invalid-feedback" role="alert">
                                                     <strong>{{ $message }}</strong>

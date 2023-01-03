@@ -1,11 +1,12 @@
-@extends('layouts.master')
 
-@section('title')
-    {{ 'إنشاء مستخدم' }}
-@endsection
-@section('css')
+
+<?php $__env->startSection('title'); ?>
+    <?php echo e('إنشاء مستخدم'); ?>
+
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('css'); ?>
     <!-- bootstrap datepicker -->
-    <link href="{{ asset('assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+    <link href="<?php echo e(asset('assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.css')); ?>" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css"
         integrity="sha512-nMNlpuaDPrqlEls3IX/Q56H36qvBASwb3ipuo3MxeWbsQB1881ox0cRv7UPTgBlriqoynt35KjEwgGUeUXIPnw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -45,18 +46,18 @@
             }
         </style>
     <!-- dropzone css -->
-    <link href="{{ asset('assets/libs/dropzone/dropzone.min.css') }}" rel="stylesheet" type="text/css" />
-@endsection
+    <link href="<?php echo e(asset('assets/libs/dropzone/dropzone.min.css')); ?>" rel="stylesheet" type="text/css" />
+<?php $__env->stopSection(); ?>
 
-@section('content')
-    @component('components.breadcrumb')
-        @slot('li_1')
+<?php $__env->startSection('content'); ?>
+    <?php $__env->startComponent('components.breadcrumb'); ?>
+        <?php $__env->slot('li_1'); ?>
             مشاريع
-        @endslot
-        @slot('title')
+        <?php $__env->endSlot(); ?>
+        <?php $__env->slot('title'); ?>
             إنشاء مشروع
-        @endslot
-    @endcomponent
+        <?php $__env->endSlot(); ?>
+    <?php echo $__env->renderComponent(); ?>
     <style>
         input[type="file"] {
             display: none;
@@ -71,20 +72,34 @@
                         <h3> تفاصيل المشروع</h3>
                         <section>
                             <form id="form1" class="form1">
-                                @csrf
+                                <?php echo csrf_field(); ?>
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="mb-3">
                                             <label for="name" class="form-label"> اسم المشروع</label>
                                             <input type="text" name="name"
-                                                class="form-control @error('name') is-invalid @enderror"
-                                                value="{{ old('name') }}" id="name" placeholder="  اسم المشروع">
+                                                class="form-control <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                                                value="<?php echo e(old('name')); ?>" id="name" placeholder="  اسم المشروع">
                                             <span class="text-danger error-text name_error"></span>
-                                            @error('name')
+                                            <?php $__errorArgs = ['name'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                                 <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
+                                                    <strong><?php echo e($message); ?></strong>
                                                 </span>
-                                            @enderror
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </div>
                                 </div>
@@ -94,32 +109,56 @@
                                         <div class="mb-3">
                                             <label for="idea" class="form-label">الفكرة/الوصف</label>
                                             <textarea id="elm1" style="height: 250px; !important" name="idea"
-                                                class="form-control @error('idea') is-invalid @enderror">{{ old('idea') }}</textarea>
+                                                class="form-control <?php $__errorArgs = ['idea'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"><?php echo e(old('idea')); ?></textarea>
                                             <span class="text-danger error-text idea_error"></span>
-                                            @error('idea')
+                                            <?php $__errorArgs = ['idea'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                                 <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
+                                                    <strong><?php echo e($message); ?></strong>
                                                 </span>
-                                            @enderror
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
+
                                     <div class="col-lg-6">
                                         <div class="mb-3">
                                             <label for="country" class="form-label">الدولة</label>
                                             <!-- All countries -->
                                             <select id="country" name="country" class="form-control country">
                                                 <option selected disabled value="0">اختر الدولة</option>
-                                                @foreach (DB::select('select * from  countries ') as $item)
-                                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                                @endforeach
+                                                <?php $__currentLoopData = DB::select('select * from  countries '); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <option value="<?php echo e($item->id); ?>"><?php echo e($item->name); ?></option>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </select>
-                                            @error('country')
+
+
+                                            <?php $__errorArgs = ['country'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                                 <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
+                                                    <strong><?php echo e($message); ?></strong>
                                                 </span>
-                                            @enderror
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </div>
 
@@ -127,18 +166,33 @@
                                         <div class="mb-3">
                                             <label for="city" class="form-label">المدينة</label>
                                             <select id="city"
-                                                class="form-select city @error('city')  is-invalid @enderror"
+                                                class="form-select city <?php $__errorArgs = ['city'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>  is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
                                                 name="city">
 
                                             </select>
 
-                                            @error('city')
+                                            <?php $__errorArgs = ['city'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                                 <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
+                                                    <strong><?php echo e($message); ?></strong>
                                                 </span>
-                                            @enderror
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </div>
+
                                 </div>
 
 
@@ -154,8 +208,15 @@
                                                 <div class="fallback">
 
                                                     <input type="file"
-                                                        class="form-control @error('logo') is-invalid @enderror dz-message needsclick"
-                                                        name="logo" id="logo" value="{{ old('logo') }}"
+                                                        class="form-control <?php $__errorArgs = ['logo'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?> dz-message needsclick"
+                                                        name="logo" id="logo" value="<?php echo e(old('logo')); ?>"
                                                         placeholder="الشعار" onchange="loadFile(event)">
                                                     <img id="output"
                                                         style=" max-width: 160px; max-height: 120px; border: none;" />
@@ -163,11 +224,18 @@
                                                 </div>
                                                 <span class="text-danger error-text logo_error"></span>
 
-                                                @error('logo')
+                                                <?php $__errorArgs = ['logo'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                                     <span class="invalid-feedback" role="alert">
-                                                        <strong>{{ $message }}</strong>
+                                                        <strong><?php echo e($message); ?></strong>
                                                     </span>
-                                                @enderror
+                                                <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                             </div>
                                         </div>
 
@@ -176,8 +244,7 @@
 
                                 <div class="col-md-4 col-4" style="float: left; margin-top: 100px;">
                                     <div class="col-md-3 " style="float: left">
-                                        {{--  <input name="save" type="submit" class="btn btn-warning inner save"
-                                            id="save" value="التالي"> --}}
+                                        
                                         <input type="submit" value="التالي" name="go" class="btn btn-warning inner go"
                                             id="go">
 
@@ -196,7 +263,7 @@
                         <h3>اعدادات المشروع</h3>
                         <section>
                             <form id="form2" class="form2">
-                                @csrf
+                                <?php echo csrf_field(); ?>
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="mb-3">
@@ -205,9 +272,9 @@
                                             <select id="project_type_id" class="form-select" name="project_type_id"
                                                 required>
                                                 <option selected disabled hidden>-- نوع المشروع --</option>
-                                                @foreach ($protype as $item)
-                                                    <option value="{{ $item->id }}">{{ $item->title }}</option>
-                                                @endforeach
+                                                <?php $__currentLoopData = $protype; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <option value="<?php echo e($item->id); ?>"><?php echo e($item->title); ?></option>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                             </select>
                                             <span class="text-danger error-text project_type_id_error"></span>
 
@@ -238,11 +305,18 @@
                                             </select>
                                             <span class="text-danger error-text language_error"></span>
 
-                                            @error('currency')
+                                            <?php $__errorArgs = ['currency'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                                 <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
+                                                    <strong><?php echo e($message); ?></strong>
                                                 </span>
-                                            @enderror
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </div>
                                     <div class="col-lg-6">
@@ -255,11 +329,18 @@
                                             </select>
                                             <span class="text-danger error-text currency_error"></span>
 
-                                            @error('currency')
+                                            <?php $__errorArgs = ['currency'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                                 <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
+                                                    <strong><?php echo e($message); ?></strong>
                                                 </span>
-                                            @enderror
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </div>
 
@@ -269,15 +350,29 @@
                                         <div class="mb-3">
                                             <label for="start_date" class="form-label">تاريخ البداية </label>
                                             <input type="date"
-                                                class="form-control @error('start_date') is-invalid @enderror"
-                                                id="start_date" name="start_date" value="{{ old('start_date') }}"
+                                                class="form-control <?php $__errorArgs = ['start_date'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                                                id="start_date" name="start_date" value="<?php echo e(old('start_date')); ?>"
                                                 required>
                                             <span class="text-danger error-text start_date_error"></span>
-                                            @error('start_date')
+                                            <?php $__errorArgs = ['start_date'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                                 <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
+                                                    <strong><?php echo e($message); ?></strong>
                                                 </span>
-                                            @enderror
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </div>
 
@@ -286,16 +381,30 @@
                                             <label for="development_duration" class="form-label">فترة التأسيس</label>
                                             <input type="number" name="development_duration"
                                                 class="form-control 
-                                            @error('development_duration') is-invalid @enderror"
+                                            <?php $__errorArgs = ['development_duration'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
                                                 placeholder="فترة التأسيس" id="development_duration"
-                                                value="{{ old('development_duration') }}" required>
+                                                value="<?php echo e(old('development_duration')); ?>" required>
                                             <span class="text-danger error-text development_duration_error"></span>
 
-                                            @error('development_duration')
+                                            <?php $__errorArgs = ['development_duration'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                                 <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
+                                                    <strong><?php echo e($message); ?></strong>
                                                 </span>
-                                            @enderror
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </div>
                                 </div>
@@ -307,11 +416,18 @@
                                                 is-invalid id="formrow-vat-input" placeholder="15">
                                             <span class="text-danger error-text vat_error"></span>
 
-                                            @error('vat')
+                                            <?php $__errorArgs = ['vat'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                                 <span class="invalid-feedback" role="alert">
-                                                    <strong>{{ $message }}</strong>
+                                                    <strong><?php echo e($message); ?></strong>
                                                 </span>
-                                            @enderror
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </div>
 
@@ -323,19 +439,25 @@
                                                 id="number_days_year" value="365">
                                             <span class="text-danger error-text number_days_year_error"></span>
 
-                                            @error('number_days_year')
+                                            <?php $__errorArgs = ['number_days_year'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
                                                 <span class="invalid-feedback" role="alert" placeholder="عدد أيام السنة">
-                                                    <strong>{{ $message }}</strong>
+                                                    <strong><?php echo e($message); ?></strong>
                                                 </span>
-                                            @enderror
+                                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div class="col-md-4 col-4" style="float: left">
                                     <div class="col-md-3 " style="float: left">
-                                        {{--  <input name="save" type="submit" class="btn btn-warning inner save"
-                                            id="save" value="التالي"> --}}
+                                        
                                         <input type="submit" value="التالي" name="go"
                                             class="btn btn-warning inner go" id="go">
 
@@ -352,25 +474,25 @@
         </div>
         <!-- end col -->
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
 
 
 
 
-@section('script')
+<?php $__env->startSection('script'); ?>
     <!--tinymce js-->
     <!-- bootstrap datepicker -->
-    <script src="{{ asset('assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+    <script src="<?php echo e(asset('assets/libs/bootstrap-datepicker/bootstrap-datepicker.min.js')); ?>"></script>
     <!-- dropzone plugin -->
-    <script src="{{ asset('assets/libs/dropzone/dropzone.min.js') }}"></script>
-    <script src="{{ asset('assets/libs/jquery-steps/jquery-steps.min.js') }}"></script>
+    <script src="<?php echo e(asset('assets/libs/dropzone/dropzone.min.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/libs/jquery-steps/jquery-steps.min.js')); ?>"></script>
 
     <!-- form wizard init -->
-    <script src="{{ asset('assets/js/pages/form-wizard.init.js') }}"></script>
-    <script src="{{ asset('assets/libs/tinymce/tinymce.min.js') }}"></script>
+    <script src="<?php echo e(asset('assets/js/pages/form-wizard.init.js')); ?>"></script>
+    <script src="<?php echo e(asset('assets/libs/tinymce/tinymce.min.js')); ?>"></script>
 
     <!-- init js -->
-    <script src="{{ asset('assets/js/pages/form-editor.init.js') }}"></script>
+    <script src="<?php echo e(asset('assets/js/pages/form-editor.init.js')); ?>"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"
         integrity="sha512-2ImtlRlf2VVmiGZsjm9bEyhjGW4dU7B6TNwh/hx/iSByxNENtj3WVE6o/9Lj4TJeVXPi4bnOIMXFIJJAeufa0A=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -390,7 +512,7 @@
             $('#form1').submit(function(e) {
                 e.preventDefault();
                 $.ajax({
-                    url: "{{ route('store_project') }}",
+                    url: "<?php echo e(route('store_project')); ?>",
                     method: 'post',
                     data: new FormData(this),
                     processData: false,
@@ -445,7 +567,7 @@
             $('#form2').submit(function(e) {
                 e.preventDefault();
                 $.ajax({
-                    url: "{{ route('store_project_details') }}",
+                    url: "<?php echo e(route('store_project_details')); ?>",
                     method: 'post',
                     data: new FormData(this),
                     processData: false,
@@ -460,7 +582,7 @@
                                 $('span.' + prefix + '_error').text(val[0]);
                             });
                         } else {
-                            window.location.href = "{{ route('projects.index') }}";
+                            window.location.href = "<?php echo e(route('projects.index')); ?>";
                         }
                     }
                 });
@@ -469,11 +591,11 @@
                 var countryId = $(this).val();
                 if (countryId) {
                     $.ajax({
-                        url: "{{ route('fetch_cities') }}",
+                        url: "<?php echo e(route('fetch_cities')); ?>",
                         type: "post",
                         data: {
                             'id': countryId,
-                            '_token': '{{ csrf_token() }}',
+                            '_token': '<?php echo e(csrf_token()); ?>',
                         },
                         dataType: "json",
                         success: function(data) {
@@ -492,4 +614,6 @@
             });
         });
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\my project\jadwaportal\resources\views/admin/projects/create.blade.php ENDPATH**/ ?>

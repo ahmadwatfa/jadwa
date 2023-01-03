@@ -2,6 +2,8 @@
 
 namespace App\Models\admin;
 
+use App\Models\City;
+use App\Models\Country;
 use App\Models\ProjectBpDetails;
 use App\Models\ProjectBusinessPlan;
 use App\Models\ProjectCompatitor;
@@ -16,22 +18,32 @@ use Illuminate\Support\Facades\Auth;
 
 class Project extends Model
 {
-    
-    use HasFactory ,SoftDeletes;
-    
-    protected $guarded = [];  
+
+    use HasFactory, SoftDeletes;
+
+    protected $guarded = [];
 
     public $timestamps = true;
 
     // protected $fillabel = [];
 
     // protected $start_date =' datetime:m/d/y';
-        public function user(){
-        return $this->belongsTo(User::class , "owner_id" , "id");
+    public function user()
+    {
+        return $this->belongsTo(User::class, "owner_id", "id");
+    }
+    public function countries()
+    {
+        return $this->belongsTo(Country::class , 'id');
+    }
+    public function cities()
+    {
+        return $this->belongsTo(City::class , 'id');
     }
 
-    public function projectType(){
-        return $this->belongsTo(ProjectType::class );
+    public function projectType()
+    {
+        return $this->belongsTo(ProjectType::class);
     }
 
     // public function ProjectBpDetails()
@@ -40,19 +52,19 @@ class Project extends Model
     // }
     public function ProjectTargetMarket()
     {
-        return $this->hasMany(ProjectTargetMarket::class  , 'project_id');
+        return $this->hasMany(ProjectTargetMarket::class, 'project_id');
     }
     public function ProjectCompatitor()
     {
-        return $this->hasMany(ProjectCompatitor::class  , 'project_id');
+        return $this->hasMany(ProjectCompatitor::class, 'project_id');
     }
     public function ProjectSalesChannels()
     {
-        return $this->hasMany(ProjectBusinessPlan::class,'project_id')->where('type','sales_channels');
+        return $this->hasMany(ProjectBusinessPlan::class, 'project_id')->where('type', 'sales_channels');
     }
     public function ProjectGoals()
     {
-        return $this->hasMany(ProjectBusinessPlan::class,'project_id')->where('type','goals');
+        return $this->hasMany(ProjectBusinessPlan::class, 'project_id')->where('type', 'goals');
     }
     // public function setCreatedByAttribute() {
     //     $this->created_by = Auth::user()->id;

@@ -24,7 +24,7 @@ class ProjectController extends Controller
     public function index()
     {
         if (Auth::user()->type == "admin") {
-            $projects = Project::query()->latest()->paginate(5);
+            $projects = Project::with('countries' , 'cities')->latest()->paginate(5);
         } else {
             $projects = Project::where('owner_id', Auth::user()->id)->latest()->paginate(5);
         }
@@ -46,8 +46,8 @@ class ProjectController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'required|min:3|max:255|string',
             'idea' => 'required|min:3|max:1025|string',
-            'country' => 'required|min:3|max:1025|string',
-            'city' => 'required|min:3|max:1025|string',
+            'country' => 'required|string',
+            'city' => 'required|string',
             'logo' => 'required',
         ], [
             'required' => 'هذا الحقل مطلوب',

@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('name')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->string('phonecode')->nullable();
             $table->string('phone')->unique()->nullable();
             $table->enum('type',['client','admin'])->default('client');
             $table->enum('status',['active','inactive'])->default('inactive');

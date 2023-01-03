@@ -236,7 +236,7 @@ class UsersController extends Controller
     public function fetchCity(Request $request)
     {
         // dd($request->all());
-        $data['cities'] = DB::table('cities')->where("country_id", $request->id)->get(["name", "id"]);          
+        $data['cities'] = DB::table('cities')->where("country_id", $request->id)->get(["name", "id"]);  
         return response()->json($data);
     }
 }
